@@ -1,0 +1,58 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h1 class="h4 mb-4 text-center text-primary">Consulta de Clientes</h1>
+
+          <form (ngSubmit)="buscar()" novalidate>
+            <div class="mb-3">
+              <label for="identificacion" class="form-label">Numero de identificacion</label>
+              <input
+                type="text"
+                id="identificacion"
+                name="identificacion"
+                class="form-control"
+                [class.is-invalid]="intentoBusqueda && !identificacion.trim()"
+                placeholder="Ej: 12345678"
+                [(ngModel)]="identificacion"
+                autocomplete="off"
+              />
+              <div class="invalid-feedback" *ngIf="intentoBusqueda && !identificacion.trim()">
+                Debe ingresar un numero de identificacion.
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="cargando">
+                <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ cargando ? 'Buscando...' : 'Buscar' }}
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="errorMensaje" class="alert alert-danger mt-4 mb-0" role="alert">
+            {{ errorMensaje }}
+          </div>
+
+          <div *ngIf="cliente" class="mt-4">
+            <h2 class="h6 text-muted text-uppercase mb-3">Datos del cliente</h2>
+            <dl class="row mb-0">
+              <dt class="col-5 col-sm-4">Nombre</dt>
+              <dd class="col-7 col-sm-8">{{ cliente.nombre }}</dd>
+
+              <dt class="col-5 col-sm-4">Apellido</dt>
+              <dd class="col-7 col-sm-8">{{ cliente.apellido }}</dd>
+
+              <dt class="col-5 col-sm-4">Email</dt>
+              <dd class="col-7 col-sm-8">{{ cliente.email || 'N/A' }}</dd>
+
+              <dt class="col-5 col-sm-4">Fecha de creacion</dt>
+              <dd class="col-7 col-sm-8">{{ cliente.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
